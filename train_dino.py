@@ -22,11 +22,12 @@ if __name__ == '__main__':
 
     parser.add_argument
     parser.add_argument('--model_dir', default='./tmp/model10.pth', type=str, help='where to save models' )
+    parser.add_argument('--dino_path', type=str, default="C:/1projects/codes/SMTC-my/01_feature_warp/dino_deitsmall16_pretrain.pth")
 
     parser.add_argument('--seed', default=0, type=int, help='random seed')
-    parser.add_argument('--batch_size', default=64, type=int)
-    parser.add_argument('--num_slots', default=3, type=int, help='Number of slots in Slot Attention.')
-    parser.add_argument('--num_iterations', default=10, type=int, help='Number of attention iterations.')
+    parser.add_argument('--batch_size', default=12, type=int)
+    parser.add_argument('--num_slots', default=7, type=int, help='Number of slots in Slot Attention.')
+    parser.add_argument('--num_iterations', default=3, type=int, help='Number of attention iterations.')
     parser.add_argument('--hid_dim', default=64, type=int, help='hidden dimension size')
     parser.add_argument('--learning_rate', default=0.0004, type=float)
     parser.add_argument('--warmup_steps', default=10000, type=int, help='Number of warmup steps for the learning rate.')
@@ -43,8 +44,8 @@ if __name__ == '__main__':
     # train_set = CLEVR('train')
     train_set = PARTNET('train')
 
-    model = SlotAttentionAutoEncoder(resolution, opt.num_slots, opt.num_iterations, opt.hid_dim).to(device)
-    model.load_state_dict(torch.load('./tmp/model10.pth')['model_state_dict'])
+    model = SlotAttentionAutoEncoder(resolution, opt.num_slots, opt.num_iterations, opt.hid_dim,dino_path=  opt.dino_path).to(device)
+    # model.load_state_dict(torch.load('./tmp/model10.pth')['model_state_dict'])
 
     criterion = nn.MSELoss()
 

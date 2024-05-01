@@ -1,5 +1,5 @@
 from dataset import *
-from model import *
+from model_dino import *
 import torch
 import numpy as np
 import cv2
