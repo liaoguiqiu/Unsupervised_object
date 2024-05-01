@@ -10,7 +10,7 @@ import torch
 from multiprocessing import freeze_support
 # Add this line to guard multiprocessing code
 if __name__ == '__main__':
-    freeze_support()
+    freeze_support()  
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
