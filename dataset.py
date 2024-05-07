@@ -15,7 +15,11 @@ class PARTNET(Dataset):
         assert split in ['train', 'val', 'test']
         self.split = split
         self.root_dir = "C:/1projects/codes/Object_centric/data/Choracic/images/"     + self.split
+        # self.root_dir = "C:/1projects/codes/Object_centric/data/CLEVR_v1.0/images/"     + self.split
+
+        # self.root_dir = "/home/linuxadmin/object_centric_learning/data/CLEVR_v1.0/images/"     + self.split
         # self.root_dir = "/media/data/Choracic/images/"     + self.split
+
         self.files = os.listdir(self.root_dir)
         self.img_transform = transforms.Compose([
                transforms.ToTensor()])

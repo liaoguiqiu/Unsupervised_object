@@ -116,12 +116,12 @@ class Encoder(nn.Module):
 class Decoder(nn.Module):
     def __init__(self, hid_dim, resolution):
         super().__init__()
-        self.conv1 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(2, 2), padding=2, output_padding=1).to(device)
-        self.conv2 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(2, 2), padding=2, output_padding=1).to(device)
-        self.conv3 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(2, 2), padding=2, output_padding=1).to(device)
-        self.conv4 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(2, 2), padding=2, output_padding=1).to(device)
-        self.conv5 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(1, 1), padding=2).to(device)
-        self.conv6 = nn.ConvTranspose2d(hid_dim, 4, 3, stride=(1, 1), padding=1)
+        self.conv1 = nn.ConvTranspose2d(hid_dim, hid_dim, 1, stride=(1, 1) ).to(device)
+        self.conv2 = nn.ConvTranspose2d(hid_dim, hid_dim, 1, stride=(1, 1) ).to(device)
+        self.conv3 = nn.ConvTranspose2d(hid_dim, hid_dim, 1, stride=(1, 1) ).to(device)
+        self.conv4 = nn.ConvTranspose2d(hid_dim, hid_dim, 1, stride=(1, 1) ).to(device)
+        self.conv5 = nn.ConvTranspose2d(hid_dim, hid_dim, 1, stride=(1, 1) ).to(device)
+        self.conv6 = nn.ConvTranspose2d(hid_dim, 384 +1, 1, stride=(1, 1) )
         self.decoder_initial_size = (8, 8)
         self.decoder_pos = SoftPositionEmbed(hid_dim, self.decoder_initial_size)
         self.resolution = resolution
@@ -141,7 +141,7 @@ class Decoder(nn.Module):
         x = self.conv5(x)
         x = F.relu(x)
         x = self.conv6(x)
-        x = x[:,:,:self.resolution[0], :self.resolution[1]]
+        x = x[:,:,:8, :8]
         x = x.permute(0,2,3,1)
         return x
 
@@ -193,14 +193,14 @@ class SlotAttentionAutoEncoder(nn.Module):
         # Convolutional encoder with position embedding.
         with torch.no_grad():
             f_dino = self.encoder(image)
-            x_dino = f_dino[0].detach().clone()
+            x_dino_OG = f_dino[0].detach().clone()
         # x = self.encoder_cnn(image)  # CNN Backbone.
         # x = nn.LayerNorm(x.shape[1:]).to(device)(x)
         # x = self.fc1(x)
         # x = F.relu(x)
         # x = self.fc2(x)  # Feedforward network on set.
         # `x` has shape: [batch_size, width*height, input_size].
-        x_dino = x_dino.permute(0,2,3,1)
+        x_dino = x_dino_OG.permute(0,2,3,1)
         x_dino = torch.flatten(x_dino, 1, 2)
         x_dino = self.fc1_dino(x_dino)
         x_dino = F.relu(x_dino)
@@ -231,12 +231,12 @@ class SlotAttentionAutoEncoder(nn.Module):
         # recon_combined = recon_combined.permute(0,3,1,2)
         # `recon_combined` has shape: [batch_size, width, height, num_channels].
 
-        recons_dino, masks_dino = x_dino.reshape(image.shape[0], -1, x_dino.shape[1], x_dino.shape[2], x_dino.shape[3]).split([3,1], dim=-1)
+        recons_dino, masks_dino = x_dino.reshape(image.shape[0], -1, x_dino.shape[1], x_dino.shape[2], x_dino.shape[3]).split([384,1], dim=-1)
         masks_dino = nn.Softmax(dim=1)(masks_dino)
         recon_combined_dino = torch.sum(recons_dino * masks_dino, dim=1)  # Recombine image.
         recon_combined_dino = recon_combined_dino.permute(0,3,1,2)
 
 
         # return recon_combined, recons, masks, slots
-        return recon_combined_dino, recons_dino, masks_dino, slots_dino
+        return recon_combined_dino, recons_dino, masks_dino, slots_dino,x_dino_OG
 

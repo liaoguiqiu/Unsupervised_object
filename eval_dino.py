@@ -1,5 +1,5 @@
 from dataset import *
-from model import *
+from model_dino import *
 import torch
 import numpy as np
 import cv2
@@ -15,14 +15,14 @@ resolution = (128, 128)
 # Load model.
 resolution = (128, 128)
 model = SlotAttentionAutoEncoder(resolution, num_slots, num_iterations, 64)
-model.load_state_dict(torch.load('./tmp/model11.pth')['model_state_dict'])
+model.load_state_dict(torch.load('./tmp/model10.pth')['model_state_dict'])
 
 test_set = PARTNET('train')
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = model.to(device)
 
-image = test_set[1]['image']
+image = test_set[700]['image']
 image = image.unsqueeze(0).to(device)
 recon_combined, recons, masks, slots = model(image)
 
@@ -35,7 +35,7 @@ masks = masks.squeeze(0).cpu().detach().numpy()
 # Display images using cv2.
 cv2.imshow('Image', image)
 cv2.imshow('Reconstructed', recon_combined)
-for i in range(3):
+for i in range(7):
     picture = (recons[i] * masks[i] + (1 - masks[i])) * 255  # Convert to 0-255 range for display
     picture = picture.astype(np.uint8)
     cv2.imshow('Slot %s' % str(i + 1), picture)

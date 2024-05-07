@@ -1,7 +1,7 @@
 import os
 import argparse
 from dataset import *
-from model_dino import *
+from model_dino_2 import *
 from tqdm import tqdm
 import time
 import datetime
@@ -21,12 +21,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     parser.add_argument
-    parser.add_argument('--model_dir', default='./tmp/model10.pth', type=str, help='where to save models' )
+    parser.add_argument('--model_dir', default='./tmp/model12.pth', type=str, help='where to save models' )
     parser.add_argument('--dino_path', type=str, default="./tmp/dino_deitsmall16_pretrain.pth")
 
     parser.add_argument('--seed', default=0, type=int, help='random seed')
-    parser.add_argument('--batch_size', default=16, type=int)
-    parser.add_argument('--num_slots', default=7, type=int, help='Number of slots in Slot Attention.')
+    parser.add_argument('--batch_size', default=64, type=int)
+    parser.add_argument('--num_slots', default=3, type=int, help='Number of slots in Slot Attention.')
     parser.add_argument('--num_iterations', default=3, type=int, help='Number of attention iterations.')
     parser.add_argument('--hid_dim', default=64, type=int, help='hidden dimension size')
     parser.add_argument('--learning_rate', default=0.0001, type=float)
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     train_set = PARTNET('train')
 
     model = SlotAttentionAutoEncoder(resolution, opt.num_slots, opt.num_iterations, opt.hid_dim,dino_path=  opt.dino_path).to(device)
-    model.load_state_dict(torch.load('./tmp/model10.pth')['model_state_dict'])
+    # model.load_state_dict(torch.load('./tmp/model10.pth')['model_state_dict'])
 
     criterion = nn.MSELoss()
 
@@ -77,8 +77,9 @@ if __name__ == '__main__':
             optimizer.param_groups[0]['lr'] = learning_rate
             
             image = sample['image'].to(device)
-            recon_combined, recons, masks, slots = model(image)
-            loss = criterion(recon_combined, image)
+            # change to have dino OG
+            recon_combined, recons, masks, slots,x_dino_OG = model(image)
+            loss = criterion(recon_combined, x_dino_OG)
             total_loss += loss.item()
 
             del recons, masks, slots

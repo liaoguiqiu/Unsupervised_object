@@ -1,7 +1,7 @@
 import os
 import argparse
 from dataset import *
-from model_dino import *
+from model import *
 from tqdm import tqdm
 import time
 import datetime
@@ -21,16 +21,16 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     parser.add_argument
-    parser.add_argument('--model_dir', default='./tmp/model10.pth', type=str, help='where to save models' )
+    parser.add_argument('--model_dir', default='./tmp/model11.pth', type=str, help='where to save models' )
 
     parser.add_argument('--seed', default=0, type=int, help='random seed')
-    parser.add_argument('--batch_size', default=64, type=int)
-    parser.add_argument('--num_slots', default=3, type=int, help='Number of slots in Slot Attention.')
-    parser.add_argument('--num_iterations', default=10, type=int, help='Number of attention iterations.')
+    parser.add_argument('--batch_size', default=16, type=int)
+    parser.add_argument('--num_slots', default=7, type=int, help='Number of slots in Slot Attention.')
+    parser.add_argument('--num_iterations', default=3, type=int, help='Number of attention iterations.')
     parser.add_argument('--hid_dim', default=64, type=int, help='hidden dimension size')
-    parser.add_argument('--learning_rate', default=0.0004, type=float)
+    parser.add_argument('--learning_rate', default=0.0001, type=float)
     parser.add_argument('--warmup_steps', default=10000, type=int, help='Number of warmup steps for the learning rate.')
-    parser.add_argument('--decay_rate', default=0.000005, type=float, help='Rate for the learning rate decay.')
+    parser.add_argument('--decay_rate', default=0.005, type=float, help='Rate for the learning rate decay.')
     parser.add_argument('--decay_steps', default=10000000, type=int, help='Number of steps for the learning rate decay.')
     parser.add_argument('--num_workers', default=4, type=int, help='number of workers for loading data')
     parser.add_argument('--num_epochs', default=1000, type=int, help='number of workers for loading data')
@@ -44,7 +44,7 @@ if __name__ == '__main__':
     train_set = PARTNET('train')
 
     model = SlotAttentionAutoEncoder(resolution, opt.num_slots, opt.num_iterations, opt.hid_dim).to(device)
-    model.load_state_dict(torch.load('./tmp/model10.pth')['model_state_dict'])
+    # model.load_state_dict(torch.load('./tmp/model11.pth')['model_state_dict'])
 
     criterion = nn.MSELoss()
 
