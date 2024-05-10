@@ -41,7 +41,7 @@ if __name__ == '__main__':
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # train_set = CLEVR('train')
-    train_set = PARTNET('train')
+    train_set = PARTNET('train',resolution)
 
     model = SlotAttentionAutoEncoder(resolution, opt.num_slots, opt.num_iterations, opt.hid_dim).to(device)
     # model.load_state_dict(torch.load('./tmp/model11.pth')['model_state_dict'])

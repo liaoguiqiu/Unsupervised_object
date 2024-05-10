@@ -22,7 +22,7 @@ test_set = PARTNET('train')
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = model.to(device)
 
-image = test_set[106]['image']
+image = test_set[107]['image']
 image = image.unsqueeze(0).to(device)
 recon_combined, recons, masks, slots,x_dino_OG = model(image)
 

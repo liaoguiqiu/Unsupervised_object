@@ -21,12 +21,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     parser.add_argument
-    parser.add_argument('--model_dir', default='./tmp/model13.pth', type=str, help='where to save models' )
+    parser.add_argument('--model_dir', default='./tmp/model14.pth', type=str, help='where to save models' )
     parser.add_argument('--dino_path', type=str, default="./tmp/dino_deitsmall16_pretrain.pth")
 
     parser.add_argument('--seed', default=0, type=int, help='random seed')
     parser.add_argument('--batch_size', default=64, type=int)
-    parser.add_argument('--num_slots', default=7, type=int, help='Number of slots in Slot Attention.')
+    parser.add_argument('--num_slots', default=3, type=int, help='Number of slots in Slot Attention.')
     parser.add_argument('--num_iterations', default=3, type=int, help='Number of attention iterations.')
     parser.add_argument('--hid_dim', default=384, type=int, help='hidden dimension size')
     parser.add_argument('--learning_rate', default=0.0001, type=float)

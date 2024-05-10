@@ -1,7 +1,7 @@
 import os
 import argparse
 from dataset import *
-from model_dino_3 import *
+from model_dino_6 import *
 from tqdm import tqdm
 import time
 import datetime
@@ -21,12 +21,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     parser.add_argument
-    parser.add_argument('--model_dir', default='./tmp/model13.pth', type=str, help='where to save models' )
+    parser.add_argument('--model_dir', default='./tmp/model16_4.pth', type=str, help='where to save models' )
     parser.add_argument('--dino_path', type=str, default="./tmp/dino_deitsmall16_pretrain.pth")
 
     parser.add_argument('--seed', default=0, type=int, help='random seed')
-    parser.add_argument('--batch_size', default=64, type=int)
-    parser.add_argument('--num_slots', default=7, type=int, help='Number of slots in Slot Attention.')
+    parser.add_argument('--batch_size', default=32, type=int)
+    parser.add_argument('--num_slots', default=4, type=int, help='Number of slots in Slot Attention.')
     parser.add_argument('--num_iterations', default=3, type=int, help='Number of attention iterations.')
     parser.add_argument('--hid_dim', default=384, type=int, help='hidden dimension size')
     parser.add_argument('--learning_rate', default=0.0001, type=float)
@@ -37,7 +37,7 @@ if __name__ == '__main__':
     parser.add_argument('--num_epochs', default=1000, type=int, help='number of workers for loading data')
 
     opt = parser.parse_args()
-    resolution = (128, 128)
+    resolution = (256, 256)
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     train_set = PARTNET('train',resolution)
 
     model = SlotAttentionAutoEncoder(resolution, opt.num_slots, opt.num_iterations, opt.hid_dim,dino_path=  opt.dino_path).to(device)
-    # model.load_state_dict(torch.load('./tmp/model10.pth')['model_state_dict'])
+    model.load_state_dict(torch.load('./tmp/model16.pth')['model_state_dict'])
 
     criterion = nn.MSELoss()
 

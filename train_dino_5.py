@@ -1,7 +1,7 @@
 import os
 import argparse
 from dataset import *
-from model_dino_3 import *
+from model_dino_5 import *
 from tqdm import tqdm
 import time
 import datetime
@@ -21,8 +21,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     parser.add_argument
-    parser.add_argument('--model_dir', default='./tmp/model13.pth', type=str, help='where to save models' )
-    parser.add_argument('--dino_path', type=str, default="./tmp/dino_deitsmall16_pretrain.pth")
+    parser.add_argument('--model_dir', default='./tmp/model15_3.pth', type=str, help='where to save models' )
+    parser.add_argument('--dino_path', type=str, default="./tmp/dino_deitsmall8_pretrain.pth")
 
     parser.add_argument('--seed', default=0, type=int, help='random seed')
     parser.add_argument('--batch_size', default=64, type=int)
@@ -31,13 +31,13 @@ if __name__ == '__main__':
     parser.add_argument('--hid_dim', default=384, type=int, help='hidden dimension size')
     parser.add_argument('--learning_rate', default=0.0001, type=float)
     parser.add_argument('--warmup_steps', default=10000, type=int, help='Number of warmup steps for the learning rate.')
-    parser.add_argument('--decay_rate', default=0.005, type=float, help='Rate for the learning rate decay.')
+    parser.add_argument('--decay_rate', default=0.00000005, type=float, help='Rate for the learning rate decay.')
     parser.add_argument('--decay_steps', default=10000000, type=int, help='Number of steps for the learning rate decay.')
     parser.add_argument('--num_workers', default=4, type=int, help='number of workers for loading data')
     parser.add_argument('--num_epochs', default=1000, type=int, help='number of workers for loading data')
 
     opt = parser.parse_args()
-    resolution = (128, 128)
+    resolution = (256, 256)
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
