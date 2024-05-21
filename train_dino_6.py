@@ -22,7 +22,7 @@ if __name__ == '__main__':
 
     parser.add_argument
     parser.add_argument('--model_dir', default='./tmp/model16_4.pth', type=str, help='where to save models' )
-    parser.add_argument('--dino_path', type=str, default="./tmp/dino_deitsmall16_pretrain.pth")
+    parser.add_argument('--dino_path', type=str, default="./tmp/dino_deitsmall8_pretrain.pth")
 
     parser.add_argument('--seed', default=0, type=int, help='random seed')
     parser.add_argument('--batch_size', default=32, type=int)
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     train_set = PARTNET('train',resolution)
 
     model = SlotAttentionAutoEncoder(resolution, opt.num_slots, opt.num_iterations, opt.hid_dim,dino_path=  opt.dino_path).to(device)
-    model.load_state_dict(torch.load('./tmp/model16.pth')['model_state_dict'])
+    # model.load_state_dict(torch.load('./tmp/model16.pth')['model_state_dict'])
 
     criterion = nn.MSELoss()
 

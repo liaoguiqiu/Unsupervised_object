@@ -15,7 +15,7 @@ output_dir =  "C:/1projects/codes/Object_centric/output"
 # Load model.
 resolution = (256, 256)
 model = SlotAttentionAutoEncoder(resolution, num_slots, num_iterations, 768)
-model.load_state_dict(torch.load('./tmp/model17.pth')['model_state_dict'])
+model.load_state_dict(torch.load('./tmp/model17_3.pth')['model_state_dict'])
 
 test_set = PARTNET('train',resolution=resolution)
 

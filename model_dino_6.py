@@ -141,7 +141,7 @@ class Decoder(nn.Module):
         x = self.conv5(x)
         x = F.relu(x)
         x = self.conv6(x)
-        x = x[:,:,:16, :16]
+        x = x[:,:,:32, :32]
         x = x.permute(0,2,3,1)
         return x
 
@@ -160,7 +160,7 @@ class SlotAttentionAutoEncoder(nn.Module):
         self.resolution = resolution
         self.num_slots = num_slots
         self.num_iterations = num_iterations
-        self.encoder = vit_small(16)
+        self.encoder = vit_small(8)
         if dino_path is not None:
             self.encoder.load_state_dict(torch.load(dino_path), strict=False)
 

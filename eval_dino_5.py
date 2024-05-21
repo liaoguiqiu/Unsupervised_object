@@ -9,13 +9,13 @@ import cv2
 seed = 0
 batch_size = 1
 num_slots = 7
-num_iterations = 3
+num_iterations = 10
 # resolution = (128, 128)
 output_dir =  "C:/1projects/codes/Object_centric/output"
 # Load model.
 resolution = (256, 256)
 model = SlotAttentionAutoEncoder(resolution, num_slots, num_iterations, 384)
-model.load_state_dict(torch.load('./tmp/model15_3.pth')['model_state_dict'])
+model.load_state_dict(torch.load('./tmp/model15_4.pth')['model_state_dict'])
 
 test_set = PARTNET('train',resolution=resolution)
 
@@ -59,8 +59,8 @@ for id in range(Img_num):
         # Blend the color mask with the current state of the final image
         composite_mask = cv2.add(composite_mask, color_mask)
     final_image = cv2.addWeighted(image, 0.5, composite_mask, 0.5, 0)  # Adjust these weights to taste
-    
-    cv2.imwrite(output_dir+"/"+str(id)+".jpg", final_image.astype(np.uint8))
-    cv2.imshow('Colored Masks Overlay', final_image.astype(np.uint8))
+    composite = np.hstack((image, final_image))
+    cv2.imwrite(output_dir+"/"+str(id)+".jpg", composite.astype(np.uint8))
+    cv2.imshow('Colored Masks Overlay', composite.astype(np.uint8))
     cv2.waitKey(1)
     # cv2.destroyAllWindows()
