@@ -30,6 +30,12 @@ Usage
 1. Dataset Script: dataset.py
 Defines the PARTNET dataset class for loading and processing images. It includes transformations and resizing operations to prepare images for training and evaluation.
 
+download data:
+cholec80: "https://s3.unistra.fr/camma_public/datasets/cholec80/cholec80.tar.gz"
+
+Robotic instrument(without tissue background):
+https://upenn.box.com/s/6089no15s5k727vy2fn7ruy74e3ss8s9
+
 2. Training Script: train.py
 This script trains the Slot Attention model on the specified dataset. It includes various hyperparameters and settings for training:
 
