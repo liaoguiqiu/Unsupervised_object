@@ -63,4 +63,4 @@ To evaluate the model, run:
 python eval.py
 
 
-same train/eval procedure applies to train_dino_x.py  and eval_dino_x.py
+same train/eval procedure applies to train_dino_x.py  and eval_dino_x.py, which are implementations of different versions of Dinosaur
