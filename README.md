@@ -54,7 +54,7 @@ This script trains the Slot Attention model on the specified dataset. It include
 
 
 To train the model, 
-first put pretrained dino weight in the /tmp folder, which can be downloaded here: "https://drive.google.com/drive/folders/1cl6J09TgDP3sdsvmSIWoicaBBanSobQe?usp=sharing"
+first put pretrained dino weight in the /tmp folder, which can be downloaded here: "https://upenn.box.com/s/nsukq51tbdxvlgh6lugnkvufnt42blk1"
 run:
 python train.py --model_dir ./tmp/model11.pth --num_epochs 1000
 
